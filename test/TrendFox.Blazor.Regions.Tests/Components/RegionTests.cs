@@ -32,7 +32,7 @@ public sealed class RegionTests
                     return fragment;
                 });
 
-                parameters.Add(p => p.ComponentTemplate, rf);
+                parameters.Add(p => p.ChildContent, rf);
             }
         });
     }

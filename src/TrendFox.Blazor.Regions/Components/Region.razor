@@ -46,12 +46,12 @@
         });
     }
 
-    if (ComponentTemplate is null)
+    if (ChildContent is null)
     {
         @finalFragment
     }
     else
     {
-        @ComponentTemplate(finalFragment)
+        @ChildContent(finalFragment)
     }
 }

@@ -25,7 +25,7 @@ public partial class Region
     /// The template used to render registered components.
     /// </summary>
     [Parameter]
-    public RenderFragment<RenderFragment>? ComponentTemplate { get; set; }
+    public RenderFragment<RenderFragment>? ChildContent { get; set; }
 
     ///<inheritdoc/>
     protected override void OnInitialized()
