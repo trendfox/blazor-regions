@@ -1,9 +1,6 @@
 ﻿@using Microsoft.AspNetCore.Authorization
 @using Microsoft.AspNetCore.Components.Authorization
 @namespace TrendFox.Blazor.Regions
-@implements IDisposable
-@inject IRegionRegistry RegionRegistry
-@inject ISingleAttribute<AuthorizeAttribute> SingleAttribute
 
 @foreach (var component in RegionRegistry.GetRegistrations(Name))
 {

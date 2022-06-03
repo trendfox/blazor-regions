@@ -1,3 +1,4 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Components;
 
 namespace TrendFox.Blazor.Regions;
@@ -6,7 +7,14 @@ namespace TrendFox.Blazor.Regions;
 /// Defines a region to render registered components.
 /// </summary>
 public partial class Region
+    : ComponentBase, IDisposable // Leave ComponentBase, for Stryker.NET!
 {
+    [Inject]
+    private IRegionRegistry RegionRegistry { get; set; } = null!;
+    
+    [Inject]
+    private ISingleAttribute<AuthorizeAttribute> SingleAttribute { get; set; } = null!;
+
     /// <summary>
     /// The name of the region used to register components.
     /// </summary>
