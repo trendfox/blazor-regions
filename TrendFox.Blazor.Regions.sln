@@ -17,6 +17,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendFox.Blazor.Regions.Per
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{30551646-675C-4BEA-B554-52164C1C33C6}"
 	ProjectSection(SolutionItems) = preProject
+		COVERAGE.md = COVERAGE.md
+		coverage.ps1 = coverage.ps1
+		LICENSE = LICENSE
+		stryker.ps1 = stryker.ps1
 		TrendFox-Icon.png = TrendFox-Icon.png
 	EndProjectSection
 EndProject
