@@ -5,60 +5,56 @@
 @inject IRegionRegistry RegionRegistry
 @inject ISingleAttribute<AuthorizeAttribute> SingleAttribute
 
-@if (Name is not null)
+@foreach (var component in RegionRegistry.GetRegistrations(Name))
 {
-    foreach (var component in RegionRegistry.GetRegistrations(Name))
-    {
-        var componentFragment = new RenderFragment(target =>
-                {
-                    target.OpenComponent(0, component.Type);
-                    if (component.Parameters is not null)
-                    {
-                        foreach (var param in component.Parameters)
-                        {
-                            target.AddAttribute(1, param.Key, param.Value);
-                        }
-                    }
-                    target.CloseComponent();
-                });
-
-        var finalFragment = componentFragment;
-
-        AuthorizeAttribute? authAtt = SingleAttribute.GetAttribute(component.Type);
-
-        if (authAtt is not null)
-        {
-            finalFragment = new RenderFragment(target =>
+    var componentFragment = new RenderFragment(target =>
             {
-                target.OpenComponent(2, typeof(AuthorizeView));
-
-                if (authAtt.Roles is not null)
+                target.OpenComponent(0, component.Type);
+                if (component.Parameters is not null)
                 {
-                    target.AddAttribute(3, nameof(AuthorizeView.Roles), authAtt.Roles);
+                    foreach (var param in component.Parameters)
+                    {
+                        target.AddAttribute(1, param.Key, param.Value);
+                    }
                 }
-
-                if (authAtt.Policy is not null)
-                {
-                    target.AddAttribute(4, nameof(AuthorizeView.Policy), authAtt.Policy);
-                }
-
-                target.AddAttribute(
-                    5,
-                    nameof(AuthorizeView.ChildContent),
-                    new RenderFragment<AuthenticationState>(state => componentFragment));
-                
                 target.CloseComponent();
             });
-        }
 
-        if (ComponentTemplate is null)
+    var finalFragment = componentFragment;
+
+    AuthorizeAttribute? authAtt = SingleAttribute.GetAttribute(component.Type);
+
+    if (authAtt is not null)
+    {
+        finalFragment = new RenderFragment(target =>
         {
-            @finalFragment
-        }
-        else
-        {
-            @ComponentTemplate(finalFragment)
-        }
+            target.OpenComponent(2, typeof(AuthorizeView));
+
+            if (authAtt.Roles is not null)
+            {
+                target.AddAttribute(3, nameof(AuthorizeView.Roles), authAtt.Roles);
+            }
+
+            if (authAtt.Policy is not null)
+            {
+                target.AddAttribute(4, nameof(AuthorizeView.Policy), authAtt.Policy);
+            }
+
+            target.AddAttribute(
+                5,
+                nameof(AuthorizeView.ChildContent),
+                new RenderFragment<AuthenticationState>(state => componentFragment));
+                
+            target.CloseComponent();
+        });
+    }
+
+    if (ComponentTemplate is null)
+    {
+        @finalFragment
+    }
+    else
+    {
+        @ComponentTemplate(finalFragment)
     }
 }
-

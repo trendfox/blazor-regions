@@ -10,8 +10,8 @@ namespace TrendFox.Blazor.Regions
         /// <summary>
         /// The name of the region used to register components.
         /// </summary>
-        [Parameter]
-        public string? Name { get; set; }
+        [Parameter, EditorRequired]
+        public string Name { get; set; } = "";
 
         /// <summary>
         /// The template used to render registered components.
