@@ -1,0 +1,53 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.2.32526.322
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "src", "src", "{B194A16F-5F2A-49BF-BFE1-EA6852CC1206}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendFox.Blazor.Regions", "src\TrendFox.Blazor.Regions\TrendFox.Blazor.Regions.csproj", "{E857763E-7F07-4471-8027-6F6D85977994}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{4B1CD586-00D8-4F61-91EA-8E45867637A3}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendFox.Blazor.Regions.Tests", "test\TrendFox.Blazor.Regions.Tests\TrendFox.Blazor.Regions.Tests.csproj", "{61454770-3F9F-4F1F-83DE-DFF5765EEC20}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "perf", "perf", "{3699F502-EF8C-4481-AEDC-76E106E3A096}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TrendFox.Blazor.Regions.Performance", "perf\TrendFox.Blazor.Regions.Performance\TrendFox.Blazor.Regions.Performance.csproj", "{7DC3B288-D311-45F5-BBD3-0BA2D622155F}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{30551646-675C-4BEA-B554-52164C1C33C6}"
+	ProjectSection(SolutionItems) = preProject
+		TrendFox-Icon.png = TrendFox-Icon.png
+	EndProjectSection
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{E857763E-7F07-4471-8027-6F6D85977994}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E857763E-7F07-4471-8027-6F6D85977994}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E857763E-7F07-4471-8027-6F6D85977994}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E857763E-7F07-4471-8027-6F6D85977994}.Release|Any CPU.Build.0 = Release|Any CPU
+		{61454770-3F9F-4F1F-83DE-DFF5765EEC20}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{61454770-3F9F-4F1F-83DE-DFF5765EEC20}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{61454770-3F9F-4F1F-83DE-DFF5765EEC20}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{61454770-3F9F-4F1F-83DE-DFF5765EEC20}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7DC3B288-D311-45F5-BBD3-0BA2D622155F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7DC3B288-D311-45F5-BBD3-0BA2D622155F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7DC3B288-D311-45F5-BBD3-0BA2D622155F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7DC3B288-D311-45F5-BBD3-0BA2D622155F}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{E857763E-7F07-4471-8027-6F6D85977994} = {B194A16F-5F2A-49BF-BFE1-EA6852CC1206}
+		{61454770-3F9F-4F1F-83DE-DFF5765EEC20} = {4B1CD586-00D8-4F61-91EA-8E45867637A3}
+		{7DC3B288-D311-45F5-BBD3-0BA2D622155F} = {3699F502-EF8C-4481-AEDC-76E106E3A096}
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {37BB3E80-592D-4A07-B5BD-1B819958B87E}
+	EndGlobalSection
+EndGlobal

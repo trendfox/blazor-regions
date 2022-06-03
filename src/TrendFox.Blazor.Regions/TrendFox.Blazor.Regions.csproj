@@ -1,0 +1,25 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Razor">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+	<RepositoryUrl>https://github.com/trendfox/blazor-regions</RepositoryUrl>
+	<GenerateDocumentationFile>True</GenerateDocumentationFile>
+	<IsPublishable>True</IsPublishable>
+	<Authors>Martin Kaip</Authors>
+	<PackageIcon>TrendFox-Icon.png</PackageIcon>
+	<PackageIconUrl>https://app.trend-fox.at/nuget-icons/TrendFox-Icon.png</PackageIconUrl>
+  </PropertyGroup>
+
+
+  <ItemGroup>
+    <SupportedPlatform Include="browser" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.5" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.5" />
+  </ItemGroup>
+
+</Project>

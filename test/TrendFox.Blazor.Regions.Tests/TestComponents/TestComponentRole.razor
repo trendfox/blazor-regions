@@ -1,0 +1,8 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@attribute [Authorize(Roles = "Test role")]
+<p>TestComponentRole@(Text)</p>
+
+@code {
+    [Parameter]
+    public string Text { get; set; } = "";
+}

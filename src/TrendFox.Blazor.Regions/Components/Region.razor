@@ -1,0 +1,90 @@
+﻿@using Microsoft.AspNetCore.Authorization
+@using Microsoft.AspNetCore.Components.Authorization
+@namespace TrendFox.Blazor.Regions
+@implements IDisposable
+@inject IRegionRegistry RegionRegistry
+@inject ISingleAttribute<AuthorizeAttribute> SingleAttribute
+
+@if (Name is not null)
+{
+    foreach (var component in RegionRegistry.GetRegistrations(Name))
+    {
+        var componentFragment = new RenderFragment(target =>
+                {
+                    target.OpenComponent(0, component.Type);
+                    if (component.Parameters is not null)
+                    {
+                        foreach (var param in component.Parameters)
+                        {
+                            target.AddAttribute(1, param.Key, param.Value);
+                        }
+                    }
+                    target.CloseComponent();
+                });
+
+        var finalFragment = componentFragment;
+
+        AuthorizeAttribute? authAtt = SingleAttribute.GetAttribute(component.Type);
+
+        if (authAtt is not null)
+        {
+            finalFragment = new RenderFragment(target =>
+            {
+                target.OpenComponent(2, typeof(AuthorizeView));
+
+                if (authAtt.Roles is not null)
+                {
+                    target.AddAttribute(3, nameof(AuthorizeView.Roles), authAtt.Roles);
+                }
+
+                if (authAtt.Policy is not null)
+                {
+                    target.AddAttribute(4, nameof(AuthorizeView.Policy), authAtt.Policy);
+                }
+
+                target.AddAttribute(
+                    5,
+                    nameof(AuthorizeView.ChildContent),
+                    new RenderFragment<AuthenticationState>(state => componentFragment));
+                
+                target.CloseComponent();
+            });
+        }
+
+        if (ComponentTemplate is null)
+        {
+            @finalFragment
+        }
+        else
+        {
+            @ComponentTemplate(finalFragment)
+        }
+    }
+}
+
+@code {
+    [Parameter]
+    public string? Name { get; set; }
+
+    [Parameter]
+    public RenderFragment<RenderFragment>? ComponentTemplate { get; set; }
+
+    protected override void OnInitialized()
+    {
+        base.OnInitialized();
+        RegionRegistry.RegionChanged += RegionRegistry_RegionChanged;
+    }
+
+    public void Dispose()
+    {
+        RegionRegistry.RegionChanged -= RegionRegistry_RegionChanged;
+    }
+
+    private void RegionRegistry_RegionChanged(object? sender, RegionChangedEventArgs e)
+    {
+        if (e.Regions.Length == 0 || e.Regions.Contains(Name))
+        {
+            StateHasChanged();
+        }
+    }
+}
