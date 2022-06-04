@@ -12,7 +12,7 @@ builder.Services.AddRegions();
 ## Basic usage
 In your app, define regions using the `Region` component
 and unique names:
-```c#
+```html+razor
 <Region Name="DashboardRegion" />
 ```
 
@@ -28,7 +28,7 @@ Regions comply with security attributes. If registered components
 have an `Authorized` attribute, the component is rendered wrapped
 in an `AuthorizeView`, applying the corresponding roles and policies.
 
-```c#
+```html+razor
 @attribute [Authorize]
 You can only see this if you're signed in.
 ```
@@ -42,13 +42,13 @@ Make sure to include `@context` where you want the original child
 components to appear within your template.
 
 ### Templates for children of regions
-```c#
+```html+razor
 <Region Name="DashboardRegion">
     <div class="my-class">@context</div>
 </Region>
 ```
 
-```c#
+```html+razor
 <ul>
     <Region Name="DashboardRegion">
         <li>@context</li>
