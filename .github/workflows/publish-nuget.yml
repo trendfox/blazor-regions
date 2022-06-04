@@ -21,6 +21,6 @@ jobs:
     - name: Test
       run: dotnet test --no-build --verbosity normal
     - name: Pack
-      run: dotnet pack --configuration Release
+      run: dotnet pack --configuration Release --output ${{ env.DOTNET_ROOT }}/myapp
     - name: Push to Nuget
-      run: dotnet nuget push src/TrendFox.Blazor.Regions/bin/Release/ --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      run: dotnet nuget push ${{ env.DOTNET_ROOT }}/myapp/ --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
