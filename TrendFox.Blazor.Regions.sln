@@ -20,6 +20,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		COVERAGE.md = COVERAGE.md
 		coverage.ps1 = coverage.ps1
 		LICENSE = LICENSE
+		README.md = README.md
 		stryker.ps1 = stryker.ps1
 		TrendFox-Icon.png = TrendFox-Icon.png
 	EndProjectSection
