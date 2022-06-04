@@ -12,6 +12,8 @@
     <Authors>Martin Kaip</Authors>
     <PackageIcon>TrendFox-Icon.png</PackageIcon>
     <PackageIconUrl>https://app.trend-fox.at/nuget-icons/TrendFox-Icon.png</PackageIconUrl>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
   </PropertyGroup>
 
 
