@@ -18,6 +18,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Content Remove="wwwroot\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Include="..\..\TrendFox-Icon.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Include="wwwroot\.gitkeep" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Microsoft.AspNetCore.Components.Authorization" Version="6.0.5" />
     <PackageReference Include="Microsoft.AspNetCore.Components.Web" Version="6.0.5" />
   </ItemGroup>
