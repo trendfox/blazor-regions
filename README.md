@@ -26,21 +26,11 @@ regionRegistry.Register<MyComponent>("DashboardRegion");
 ## Security
 Regions comply with security attributes. If registered components
 have an `Authorized` attribute, the component is rendered wrapped
-with an `AuthorizeView`, applying the corresponding roles and policies.
+in an `AuthorizeView`, applying the corresponding roles and policies.
 
 ```c#
 @attribute [Authorize]
 You can only see this if you're signed in.
-```
-
-```c#
-@attribute [Authorize(Roles = "admin, superuser")]
-<p>You can only see this if you're in the 'admin' or 'superuser' role.</p>
-```
-
-```c#
-@attribute [Authorize(Policy = "content-editor")]
-<p>You can only see this if you satisfy the 'content-editor' policy.</p>
 ```
 
 ## Advanced scenarios
