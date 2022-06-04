@@ -24,4 +24,4 @@ jobs:
       run: dotnet pack --configuration Release --output ${{ env.DOTNET_ROOT }}/myapp
 
     - name: Push to NuGet
-      run: dotnet nuget push ${{ env.DOTNET_ROOT }}/myapp/ --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }}
+      run: find ${{ env.DOTNET_ROOT }}/myapp/*.nupkg -type f -exec dotnet nuget push '{}' --source https://api.nuget.org/v3/index.json --api-key ${{ secrets.NUGET_API_KEY }} \;
