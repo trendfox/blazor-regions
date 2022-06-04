@@ -4,6 +4,7 @@
     <TargetFramework>net6.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <Version>1.0.0-dev1</Version>
     <RepositoryUrl>https://github.com/trendfox/blazor-regions</RepositoryUrl>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <IsPublishable>True</IsPublishable>
