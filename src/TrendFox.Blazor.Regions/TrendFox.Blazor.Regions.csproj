@@ -5,6 +5,7 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <Version>1.0.0-dev1</Version>
+    <PackageLicenseFile>LICENSE</PackageLicenseFile>
     <RepositoryUrl>https://github.com/trendfox/blazor-regions</RepositoryUrl>
     <GenerateDocumentationFile>True</GenerateDocumentationFile>
     <IsPublishable>True</IsPublishable>
@@ -23,6 +24,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="..\..\LICENSE">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
     <None Include="..\..\TrendFox-Icon.png">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
