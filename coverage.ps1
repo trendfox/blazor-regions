@@ -1,16 +1,25 @@
+# On linux, install powershell: dotnet tool install -g PowerShell
+# and run the script with: pwsh ./coverage.ps1
+
 # This script requires Daniel Palme's report generator.
 # See: https://github.com/danielpalme/ReportGenerator
 # Install: dotnet tool install -g dotnet-reportgenerator-globaltool
 
 Write-Host "Fetching previous test result..."
-$resultFolders = @(Get-ChildItem -Recurse -Directory TestResults | ForEach-Object { $_.FullName })
+$resultFolders = @(Get-ChildItem -Recurse -Directory TestResults | ForEach-Object { $_.FullName | Resolve-Path -Relative })
 
 Write-Host "Deleting previous test results..."
-$resultFolders | ForEach-Object { Remove-Item -Recurse $_ }
+$resultFolders | ForEach-Object {
+    Write-Host " -> Delete $_"
+    Remove-Item -Recurse $_
+}
+
+$reportDirectory = Join-Path . TestCoverageReport
 
 Write-Host "Deleting previous report..."
-if ((Test-Path .\TestCoverageReport) -eq $true) {
-    Remove-Item -Recurse .\TestCoverageReport
+if ((Test-Path $reportDirectory) -eq $true) {
+    Write-Host " -> Delete $reportDirectory"
+    Remove-Item -Recurse $reportDirectory
 }
 
 Write-Host "Run tests and coverage..."
@@ -24,4 +33,4 @@ $reportFiles = @(Get-ChildItem -Recurse -Directory TestResults | ForEach-Object 
 Write-Host "Generating report..."
 reportgenerator "-reports:$($reportFiles -join ";")" -targetdir:TestCoverageReport -reporttypes:Html
 
-Start-Process .\TestCoverageReport\index.html
+Invoke-Item $(Join-Path $reportDirectory index.html)
