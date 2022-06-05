@@ -22,6 +22,12 @@ use it to register your component for a specific region.
 ```c#
 regionRegistry.Register<MyComponent>("DashboardRegion");
 ```
+If you register components after a region was rendered, you can
+request an update:
+```c#
+regionRegistry.RaiseRegionsChanged("DashboardRegion");
+```
+If the region names are omitted, all regions will update.
 
 ## Security
 Regions comply with security attributes. If registered components
