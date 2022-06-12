@@ -1,18 +1,17 @@
 ﻿using System.Reflection;
-using System.Runtime.CompilerServices;
 
 namespace TrendFox.Blazor.Regions;
 
 /// <summary>
-/// Gets a specific attribute using an internal weak reference table
-/// to cache a single attribute for a given type.
+/// Gets a specific attribute for a type using reflection, and
+/// caches the attribute for subsequent queries.
 /// </summary>
 /// <typeparam name="TAttribute">The attribute type.</typeparam>
 internal class CachedReflectionSingleAttribute<TAttribute>
     : ISingleAttribute<TAttribute>
     where TAttribute : Attribute
 {
-    private ConditionalWeakTable<Type, TAttribute?> _cache = new();
+    private Dictionary<Type, TAttribute?> _cache = new();
 
     internal bool IsCached(Type type)
     {
