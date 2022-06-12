@@ -310,6 +310,23 @@ public sealed class RegionTests
     }
 
     [Fact]
+    public void UnregisterComponentWithoutRaiseDoesNotRemoveComponentFromRegion()
+    {
+        // Arrange
+        var registry = _ctx.Services.GetService<IRegionRegistry>()!;
+        registry.Register<TestComponent>(RegionName, "", p => p.Add(c => c.Text, "x"));
+        var cut = CreateComponentUnderTest();
+        cut.FindAll("p").MarkupMatches("<p>TestComponent: x</p>");
+
+        // Act
+        registry.Unregister<TestComponent>(RegionName);
+        // But no RaiseRegionChanged()
+
+        // Assert
+        cut.FindAll("p").MarkupMatches("<p>TestComponent: x</p>");
+    }
+
+    [Fact]
     public async Task UnregisterComponentRaiseWithoutRegionNameRemovesComponentFromRegionAsync()
     {
         // Arrange
