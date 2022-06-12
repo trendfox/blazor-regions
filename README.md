@@ -1,33 +1,43 @@
 # TrendFox.Blazor.Regions
+Create modular Blazor user interfaces.
+
 Define regions in Blazor that render registered components.
-Every region can render multiple components and the same region
-can be rendered multiple times with different templates.
+Every region can render multiple components, and the same region
+can be rendered multiple times in different places with different
+templates.
 
 ## Setup
-Reference the package, and register services with dependency injection:
+Add a reference to the NuGet package `TrendFox.Blazor.Regions`,
+and register the required services with dependency injection:
 ```c#
-builder.Services.AddRegions();
+builder.Services.AddRegions(); // using TrendFox.Blazor.Regions;
 ```
 
 ## Basic usage
-In your app, define regions using the `Region` component
-and unique names:
+In your app, define regions by using the `Region` component. Use
+unique names to differentiate between regions:
 ```html+razor
 <Region Name="DashboardRegion" />
 ```
 
-Via dependency injection, get the `IRegionRegistry` interface, and
-use it to register your component for a specific region.
+In modules, or really anywhere, get the `IRegionRegistry` interface
+via dependency injection, and use it to register a component for
+a specific region.
 
 ```c#
 regionRegistry.Register<MyComponent>("DashboardRegion");
 ```
-If you register components after a region was rendered, you can
-request an update:
+If you register or unregister components for a region that has already
+been rendered, use `RaiseRegionsChanged` to update the region, or
+multiple regions:
 ```c#
-regionRegistry.RaiseRegionsChanged("DashboardRegion");
+regionRegistry.RaiseRegionsChanged(); // Update all regions
+regionRegistry.RaiseRegionsChanged("DashboardRegion"); // Update DashboardRegion
+regionRegistry.RaiseRegionsChanged("Region1", "Region2"); // Update Region1, Region2
 ```
-If the region names are omitted, all regions will update.
+It is by design, that regions only update when explicitly calling
+`RaiseRegionsChanged`. You can register/unregister loads of components,
+and only update the UI once.
 
 ## Security
 Regions comply with security attributes. If registered components
@@ -85,5 +95,6 @@ regionRegistry.Register<MyComponent>("DashboardRegion", paramBuilder = paramBuil
 ```
 
 **Warning**: The region registry is a `Scoped` service, registered parameters
-will therefore behave like singletons for each user. Do not use resource intensive
-objects as parameters for regions.
+will therefore behave like singletons for each user for both Blazor server
+and Blazor WASM. Do not use resource intensive objects as parameters for
+regions.
