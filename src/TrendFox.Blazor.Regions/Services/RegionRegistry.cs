@@ -45,6 +45,7 @@ public class RegionRegistry
 
     /// <inheritdoc/>
     public void Register<TComponent>(string region, string key = "", IDictionary<string, object?>? parameters = null)
+        where TComponent : ComponentBase
     {
         var type = typeof(TComponent);
         var typeRegistration = GetOrCreateRegionRegistration(type, region);

@@ -25,7 +25,8 @@ public interface IRegionRegistry
     /// <param name="region">The region name.</param>
     /// <param name="key">Set a unique key, if the same component type is registered multiple times.</param>
     /// <param name="parameters">The parameters used when creating the component.</param>
-    void Register<TComponent>(string region, string key = "", IDictionary<string, object?>? parameters = null);
+    void Register<TComponent>(string region, string key = "", IDictionary<string, object?>? parameters = null)
+        where TComponent : ComponentBase;
 
     /// <summary>
     /// Register a component type with a region.
