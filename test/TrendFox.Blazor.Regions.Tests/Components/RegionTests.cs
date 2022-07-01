@@ -13,7 +13,7 @@ public sealed class RegionTests
     public RegionTests() => _ctx.Services.AddRegions();
     public void Dispose() => _ctx.Dispose();
 
-    private IRenderedComponent<Region> CreateComponentUnderTest(bool useComponentTemplate = false)
+    private IRenderedComponent<Region> CreateComponentUnderTest(bool useComponentTemplate = false, bool useNoChildrenTemplate = false)
     {
         return _ctx.RenderComponent<Region>(parameters =>
         {
@@ -33,6 +33,18 @@ public sealed class RegionTests
                 });
 
                 parameters.Add(p => p.ChildContent, rf);
+            }
+
+            if (useNoChildrenTemplate)
+            {
+                var rf = new RenderFragment(t =>
+                {
+                    t.OpenElement(2, "div");
+                    t.AddContent(3, "Region is empty");
+                    t.CloseElement();
+                });
+
+                parameters.Add(p => p.NoChildren, rf);
             }
         });
     }
@@ -358,5 +370,30 @@ public sealed class RegionTests
 
         // Assert
         cut.MarkupMatches("");
+    }
+
+    [Fact]
+    public void EmptyRegionRendersNoChildrenTemplate()
+    {
+        // Arrange
+        // Act
+        var cut = CreateComponentUnderTest(false, true);
+
+        // Assert
+        cut.MarkupMatches("<div>Region is empty</div>");
+    }
+
+    [Fact]
+    public void FilledRegionDoesNotRenderNoChildrenTemplate()
+    {
+        // Arrange
+        var registry = _ctx.Services.GetService<IRegionRegistry>()!;
+        registry.Register<TestComponent>(RegionName);
+
+        // Act
+        var cut = CreateComponentUnderTest(false, true);
+
+        // Assert
+        cut.MarkupMatches("<p>TestComponent</p>");
     }
 }

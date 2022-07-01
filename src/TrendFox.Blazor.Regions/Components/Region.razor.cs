@@ -27,10 +27,19 @@ public partial class Region
     [Parameter]
     public RenderFragment<RenderFragment>? ChildContent { get; set; }
 
+    /// <summary>
+    /// The template used if no child controls are registered for the region.
+    /// </summary>
+    [Parameter]
+    public RenderFragment? NoChildren { get; set; }
+
+    private ComponentRegistration[] Registrations = Array.Empty<ComponentRegistration>();
+
     ///<inheritdoc/>
     protected override void OnInitialized()
     {
         base.OnInitialized();
+        LoadRegistrations();
         RegionRegistry.RegionChanged += RegionRegistry_RegionChanged;
     }
 
@@ -40,10 +49,18 @@ public partial class Region
         RegionRegistry.RegionChanged -= RegionRegistry_RegionChanged;
     }
 
+    private void LoadRegistrations()
+    {
+        Registrations = RegionRegistry
+            .GetRegistrations(Name)
+            .ToArray();
+    }
+
     private void RegionRegistry_RegionChanged(object? sender, RegionChangedEventArgs e)
     {
         if (e.Regions.Length == 0 || e.Regions.Contains(Name))
         {
+            LoadRegistrations();
             StateHasChanged();
         }
     }

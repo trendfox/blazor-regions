@@ -2,7 +2,12 @@
 @using Microsoft.AspNetCore.Components.Authorization
 @namespace TrendFox.Blazor.Regions
 
-@foreach (var component in RegionRegistry.GetRegistrations(Name))
+@if (Registrations.Length == 0)
+{
+    @NoChildren
+}
+
+@foreach (var component in Registrations)
 {
     var componentFragment = new RenderFragment(target =>
             {
