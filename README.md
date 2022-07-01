@@ -72,6 +72,21 @@ components to appear within your template.
 </ul>
 ```
 
+### Template for empty regions
+Indicate to the user, that a region is empty by using
+the `NoChildren` template:
+template.
+```html+razor
+<Region Name="DashboardRegion">
+    <NoChildren>
+        <div>This region is empty.</div>
+    </NoChildren>
+    <ChildContent>
+        <div>@context</div>
+    </ChildContent>
+</Region>
+```
+
 ### Parameters for child components
 
 Registered components can also have parameters, either as
