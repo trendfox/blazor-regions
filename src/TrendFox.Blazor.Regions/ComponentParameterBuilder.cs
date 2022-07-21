@@ -18,10 +18,12 @@ internal class ComponentParameterBuilder<TComponent>
 
         var memberExpr = propertySelector.Body as MemberExpression;
         var memberName = memberExpr?.Member.Name ?? throw new InvalidOperationException("Could not identify member name from lambda.");
+        var componentType = typeof(TComponent);
 
-        if (memberExpr.Member.ReflectedType != typeof(TComponent))
+        if (memberExpr.Member.ReflectedType != componentType
+            && componentType.IsAssignableTo(memberExpr.Member.ReflectedType) == false)
         {
-            throw new InvalidOperationException($"{nameof(propertySelector)} lambda must be an expression targetting a single property of {typeof(TComponent).Name}.");
+            throw new InvalidOperationException($"{nameof(propertySelector)} lambda must be an expression targetting a single property of {componentType.Name}.");
         }
 
         _parameters.Add(memberName, value);
