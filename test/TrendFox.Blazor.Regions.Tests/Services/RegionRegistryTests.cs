@@ -68,6 +68,19 @@ public class RegionRegistryTests
     }
 
     [Fact]
+    public void TryRegisterWorksForMultipleTypes()
+    {
+        // Arrange
+        // Act
+        _ = _registry.TryRegister<TestComponent>(RegionName);
+        _ = _registry.TryRegister<TestOtherComponent>(RegionName);
+        // Assert
+        var actualRegistrations = _registry.GetRegistrations(RegionName);
+        Assert.Contains(actualRegistrations, r => r.Type == typeof(TestComponent));
+        Assert.Contains(actualRegistrations, r => r.Type == typeof(TestOtherComponent));
+    }
+
+    [Fact]
     public void RegisterTwiceWithSameKeyThrows()
     {
         // Arrange
@@ -90,6 +103,131 @@ public class RegionRegistryTests
         // Assert
     }
 
+    [Fact]
+    public void TryRegisterTwiceWithDifferentKeyWorks()
+    {
+        // Arrange
+        // Act
+        var actual1 = _registry.TryRegister<InputText>(RegionName, "key1");
+        var actual2 = _registry.TryRegister<InputText>(RegionName, "key2");
+        // Assert
+        var actualRegistrations = _registry.GetRegistrations(RegionName);
+        Assert.Contains(actualRegistrations, r => r.Key == "key1");
+        Assert.Contains(actualRegistrations, r => r.Key == "key2");
+        Assert.True(actual1);
+        Assert.True(actual2);
+    }
+
+    [Fact]
+    public void TryRegisterOnceReturnsTrue()
+    {
+        // Arrange
+        // Act
+        var actual = _registry.TryRegister<InputText>(RegionName);
+        // Assert
+        Assert.True(actual);
+    }
+
+    [Fact]
+    public void TryRegisterTwiceReturnsFalse()
+    {
+        // Arrange
+        _ = _registry.TryRegister<InputText>(RegionName);
+        // Act
+        var actual = _registry.TryRegister<InputText>(RegionName);
+        // Assert
+        Assert.False(actual);
+    }
+
+    [Fact]
+    public void TryRegisterOnceWithKeyReturnsTrue()
+    {
+        // Arrange
+        // Act
+        var actual = _registry.TryRegister<InputText>(RegionName, "key");
+        // Assert
+        Assert.True(actual);
+    }
+
+    [Fact]
+    public void TryRegisterTwiceWithKeyReturnsFalse()
+    {
+        // Arrange
+        _ = _registry.TryRegister<InputText>(RegionName, "key");
+        // Act
+        var actual = _registry.TryRegister<InputText>(RegionName, "key");
+        // Assert
+        Assert.False(actual);
+    }
+
+    [Fact]
+    public void TryRegisterOnceWithActionReturnsTrue()
+    {
+        // Arrange
+        // Act
+        var actual = _registry.TryRegister<InputText>(RegionName, p => p
+            .Add(c => c.Value, ""));
+        // Assert
+        Assert.True(actual);
+    }
+
+    [Fact]
+    public void TryRegisterTwiceWithActionReturnsFalse()
+    {
+        // Arrange
+        _ = _registry.TryRegister<InputText>(RegionName, p => p
+            .Add(c => c.Value, ""));
+        // Act
+        var actual = _registry.TryRegister<InputText>(RegionName, p => p
+            .Add(c => c.Value, ""));
+        // Assert
+        Assert.False(actual);
+    }
+
+    [Fact]
+    public void TryRegisterOnceWithKeyAndDictionaryReturnsTrue()
+    {
+        // Arrange
+        // Act
+        var actual = _registry.TryRegister<InputText>(RegionName, "key", new Dictionary<string, object?>());
+        // Assert
+        Assert.True(actual);
+    }
+
+    [Fact]
+    public void TryRegisterTwiceWithKeyAndDictionaryReturnsFalse()
+    {
+        // Arrange
+        _ = _registry.TryRegister<InputText>(RegionName, "key", new Dictionary<string, object?>());
+        // Act
+        var actual = _registry.TryRegister<InputText>(RegionName, "key", new Dictionary<string, object?>());
+        // Assert
+        Assert.False(actual);
+    }
+
+    [Fact]
+    public void TryRegisterOnceWithKeyAndActionReturnsTrue()
+    {
+        // Arrange
+        // Act
+        var actual = _registry.TryRegister<InputText>(RegionName, "key", p => p
+            .Add(c => c.Value, ""));
+        // Assert
+        Assert.True(actual);
+    }
+
+    [Fact]
+    public void TryRegisterTwiceWithKeyAndActionReturnsFalse()
+    {
+        // Arrange
+        _ = _registry.TryRegister<InputText>(RegionName, "key", p => p
+            .Add(c => c.Value, ""));
+        // Act
+        var actual = _registry.TryRegister<InputText>(RegionName, "key", p => p
+            .Add(c => c.Value, ""));
+        // Assert
+        Assert.False(actual);
+    }
 
     private static IEnumerable<object?[]> RaiseRegionChangedRaisesEventData()
     {
@@ -137,6 +275,43 @@ public class RegionRegistryTests
     }
 
     [Fact]
+    public void TryUnregisterWorks()
+    {
+        // Arrange
+        _registry.Register<TestComponent>(RegionName);
+
+        // Act
+        var actual = _registry.TryUnregister<TestComponent>(RegionName);
+
+        // Assert
+        var actualRegistrations = _registry.GetRegistrations(RegionName);
+        Assert.Empty(actualRegistrations);
+        Assert.True(actual);
+    }
+
+    [Fact]
+    public void TryUnregisterNotRegisteredWorks()
+    {
+        // Arrange
+        _registry.Register<InputText>(RegionName);
+        // Act
+        var actual = _registry.TryUnregister<TestComponent>(RegionName);
+        // Assert
+        Assert.False(actual);
+    }
+
+    [Fact]
+    public void TryUnregisterWithKeyNotRegisteredWorks()
+    {
+        // Arrange
+        _registry.Register<InputText>(RegionName);
+        // Act
+        var actual = _registry.TryUnregister<TestComponent>(RegionName, "key");
+        // Assert
+        Assert.False(actual);
+    }
+
+    [Fact]
     public void UnregisterWorksWithKey()
     {
         // Arrange
@@ -152,6 +327,26 @@ public class RegionRegistryTests
         var actualRegistrations = _registry.GetRegistrations(RegionName);
         Assert.DoesNotContain(actualRegistrations, r => r.Type == typeof(TestComponent) && r.Key == keyExpectDoesNotExist);
         Assert.Contains(actualRegistrations, r => r.Type == typeof(TestComponent) && r.Key == keyExpectExist);
+    }
+
+
+    [Fact]
+    public void TryUnregisterWorksWithKey()
+    {
+        // Arrange
+        var keyExpectDoesNotExist = "1";
+        var keyExpectExist = "2";
+        _registry.Register<TestComponent>(RegionName, keyExpectDoesNotExist);
+        _registry.Register<TestComponent>(RegionName, keyExpectExist);
+
+        // Act
+        var actual = _registry.TryUnregister<TestComponent>(RegionName, keyExpectDoesNotExist);
+
+        // Assert
+        var actualRegistrations = _registry.GetRegistrations(RegionName);
+        Assert.DoesNotContain(actualRegistrations, r => r.Type == typeof(TestComponent) && r.Key == keyExpectDoesNotExist);
+        Assert.Contains(actualRegistrations, r => r.Type == typeof(TestComponent) && r.Key == keyExpectExist);
+        Assert.True(actual);
     }
 
     [Fact]
@@ -172,6 +367,21 @@ public class RegionRegistryTests
         {
             // Act
             _registry.Unregister<TestComponent>(RegionName, "1");
+        });
+        Assert.Equal(expectedMessage, actualException.Message);
+    }
+
+    [Fact]
+    public void TryUnregisterThrowsWithoutRegion()
+    {
+        // Arrange
+        var expectedMessage = $"The region \"{RegionName}\" does not exist.";
+
+        // Assert
+        var actualException = Assert.Throws<KeyNotFoundException>(() =>
+        {
+            // Act
+            _registry.TryUnregister<TestComponent>(RegionName);
         });
         Assert.Equal(expectedMessage, actualException.Message);
     }

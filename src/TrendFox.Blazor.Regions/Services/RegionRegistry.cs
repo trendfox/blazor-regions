@@ -111,4 +111,51 @@ public class RegionRegistry
 
         throw new KeyNotFoundException($"The region \"{region}\" does not exist.");
     }
+
+    /// <inheritdoc/>
+    public bool TryUnregister<TComponent>(string region, string key = "") where TComponent : ComponentBase
+    {
+        if (_regions.TryGetValue(region, out var typeRegistration))
+        {
+            Type type = typeof(TComponent);
+
+            if (typeRegistration.TryGetValue(type, out var keyRegistration))
+            {
+                keyRegistration.Remove(key);
+                return true;
+            }
+            return false;
+        }
+
+        throw new KeyNotFoundException($"The region \"{region}\" does not exist.");
+    }
+
+    /// <inheritdoc/>
+    public bool TryRegister<TComponent>(string region, string key = "", IDictionary<string, object?>? parameters = null)
+        where TComponent : ComponentBase
+    {
+        var type = typeof(TComponent);
+        var typeRegistration = GetOrCreateRegionRegistration(type, region);
+        var keyRegistration = GetOrCreateKeyRegistration(typeRegistration, type);
+
+        return keyRegistration.TryAdd(key, new ComponentRegistration(key, type, parameters));
+    }
+
+    /// <inheritdoc/>
+    public bool TryRegister<TComponent>(string region, string key, Action<IComponentParameterBuilder<TComponent>> configureParameters)
+        where TComponent : ComponentBase
+    {
+        var parameters = new ComponentParameterBuilder<TComponent>();
+        configureParameters.Invoke(parameters);
+        return TryRegister<TComponent>(region, key, parameters.Build());
+    }
+
+    /// <inheritdoc/>
+    public bool TryRegister<TComponent>(string region, Action<IComponentParameterBuilder<TComponent>> configureParameters)
+        where TComponent : ComponentBase
+    {
+        var parameters = new ComponentParameterBuilder<TComponent>();
+        configureParameters.Invoke(parameters);
+        return TryRegister<TComponent>(region, "", parameters.Build());
+    }
 }
