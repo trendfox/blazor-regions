@@ -102,16 +102,13 @@ public class RegionRegistry
             if (typeRegistration.TryGetValue(type, out var keyRegistration))
             {
                 keyRegistration.Remove(key);
+                return;
             }
-            else
-            {
-                var withKey = key == "" ? "" : $" with key \"{key}\"";
-                throw new KeyNotFoundException($"The type {typeof(TComponent).Name} is not registered{withKey} with region \"{region}\".");
-            }
+
+            var withKey = key == "" ? "" : $" with key \"{key}\"";
+            throw new KeyNotFoundException($"The type {typeof(TComponent).Name} is not registered{withKey} with region \"{region}\".");
         }
-        else
-        {
-            throw new KeyNotFoundException($"The region \"{region}\" does not exist.");
-        }
+
+        throw new KeyNotFoundException($"The region \"{region}\" does not exist.");
     }
 }
