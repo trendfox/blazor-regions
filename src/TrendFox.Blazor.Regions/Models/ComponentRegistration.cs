@@ -8,7 +8,7 @@ public class ComponentRegistration
     /// <summary>
     /// The key used to register this type. Must be unique per type.
     /// </summary>
-    public string Key { get; set; }
+    public string Key { get; private set; }
 
     /// <summary>
     /// The type registered.
